@@ -16,6 +16,8 @@ import urllib2
 url, dist = sys.argv[1:]
 
 try:
+    repo2 = urllib2.urlopen(dist)
+    println(repo2)
     repo = urllib2.urlopen(url)
 except urllib2.HTTPError, e:
     print >>sys.stderr, "Failed to fetch directory list from %s" % url
@@ -27,6 +29,7 @@ if pg_version[0] == "8" and dist != "sl":
 else:
     re_pattern = 'href=[\'"](pgdg-%s%s-%s-[\d+].noarch.rpm)[\'"]' % (dist, pg_version.replace('.', ''), pg_version)
 match = re.findall(re_pattern, repo.read(), flags=re.I)
+
 
 assert match, "No matching %s pgdg repository packages found for version %s at %s" % (dist, pg_version, url)
 
